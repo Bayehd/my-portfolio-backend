@@ -1,0 +1,33 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Portfolio REST API Backend",
+  "keywords": [
+    "Express",
+    "MERN"
+  ],
+  "homepage": "https://github.com/Bayehd/my-portfolio-backend#readme",
+  "bugs": {
+    "url": "https://github.com/Bayehd/my-portfolio-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bayehd/my-portfolio-backend.git"
+  },
+  "license": "MIT",
+  "author": "Benonia Ayeh",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "http-errors": "^2.0.1",
+    "mongoose": "^9.2.1",
+    "morgan": "^1.10.1"
+  }
+}
