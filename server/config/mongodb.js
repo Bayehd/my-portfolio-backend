@@ -6,16 +6,19 @@ const uri = process.env.ATLASDB;
 
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
-module.exports = async function run() {
-  try {
-    // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
-    await mongoose.connect(uri, clientOptions);
-    await mongoose.connection.db.admin().command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } catch (error) {
-    console.error("Error connecting to mongodb:", error)
-    // Ensures that the client will close when you finish/error
-    await mongoose.disconnect();
-  }
+// Export the function so server.js can use it
+module.exports = async function configDB() {
+    try {
+
+        await mongoose.connect(uri, clientOptions);
+        await mongoose.connection.db.admin().command({ ping: 1 });
+        console.log("Successfully connected to portfolio database!");    
+    } 
+    catch (error) {
+        // If connection fails, stop the server
+        console.error("Error connecting to MongoDB:", error.message);
+        process.exit(1);
+    }
+
 }
 //run().catch(console.dir);
