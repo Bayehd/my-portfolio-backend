@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// Schema for references/recommendations
+// Schema for references
 const referenceSchema = new mongoose.Schema({
     firstname: {
         type: String,

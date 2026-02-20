@@ -1,4 +1,4 @@
-const Reference = require('../../models/references');
+const Reference = require('../models/references');
 
 // GET ALL references
 module.exports.getAll = async (req, res, next) => {
