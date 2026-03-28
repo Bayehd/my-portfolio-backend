@@ -17,7 +17,7 @@ app.use(cors({
   origin: [
     'http://localhost:5173',
     'http://localhost:5174',
-    'https://your-frontend-url.onrender.com'  // Replace with your actual frontend URL
+    'https://my-portfolio-frontend-bhss.onrender.com'  
   ],
   credentials: true
 }));
