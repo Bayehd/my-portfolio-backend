@@ -13,7 +13,14 @@ let servicesRouter = require('../app/routes/services');
 let usersRouter = require('../app/routes/user');
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'https://your-frontend-url.onrender.com'  // Replace with your actual frontend URL
+  ],
+  credentials: true
+}));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
