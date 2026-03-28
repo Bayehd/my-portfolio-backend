@@ -4,8 +4,14 @@ const mongoose = require('mongoose');
 const projectSchema = new mongoose.Schema(
     {
     title: String,
-    completion: Date,
-    description: String,    
+    description: String,
+    role: String,          
+    outcome: String,       
+    technologies: [String], 
+    image: String,         
+    liveUrl: String,       
+    githubUrl: String,     
+    completion: Date    
     }
 );
 

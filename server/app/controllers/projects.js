@@ -9,6 +9,12 @@ module.exports.getAll = async function (req, res, next) {
             title: project.title,
             completion: project.completion,
             description: project.description,
+            role: project.role,              // ← ADD
+            outcome: project.outcome,        // ← ADD
+            technologies: project.technologies, // ← ADD
+            image: project.image,            // ← ADD
+            liveUrl: project.liveUrl,        // ← ADD
+            githubUrl: project.githubUrl,    // ← ADD
             id: project._id
         }));
         
@@ -39,6 +45,12 @@ module.exports.getById = async function (req, res, next) {
                 title: project.title,
                 completion: project.completion,
                 description: project.description,
+                role: project.role,              // ← ADD
+                outcome: project.outcome,        // ← ADD
+                technologies: project.technologies, // ← ADD
+                image: project.image,            // ← ADD
+                liveUrl: project.liveUrl,        // ← ADD
+                githubUrl: project.githubUrl,    // ← ADD
                 id: project._id
             }
         });
@@ -55,7 +67,7 @@ module.exports.add = async function (req, res, next) {
         let result = await Project.create(newProject);
         console.log(result);
         
-        res.status(200)
+        res.status(200);
         res.json({
             success: true,
             message: "Project added successfully.",
@@ -63,6 +75,12 @@ module.exports.add = async function (req, res, next) {
                 title: result.title,
                 completion: result.completion,
                 description: result.description,
+                role: result.role,              // ← ADD
+                outcome: result.outcome,        // ← ADD
+                technologies: result.technologies, // ← ADD
+                image: result.image,            // ← ADD
+                liveUrl: result.liveUrl,        // ← ADD
+                githubUrl: result.githubUrl,    // ← ADD
                 id: result._id
             }
         });
@@ -76,13 +94,16 @@ module.exports.add = async function (req, res, next) {
 module.exports.update = async function (req, res, next) {
     try {
         let id = req.params.id;
-        let updatedProject = new Project(req.body);
-        updatedProject._id = id;
-        let result = await Project.updateOne({ _id: id }, updatedProject);
+        
+        // Use req.body directly and remove _id
+        let updateData = { ...req.body };
+        delete updateData._id;
+        
+        let result = await Project.updateOne({ _id: id }, updateData);
         console.log(result);
         
         if (result.modifiedCount > 0) {
-            res.status(200)
+            res.status(200);
             res.json({
                 success: true,
                 message: "Project updated successfully."
@@ -105,7 +126,7 @@ module.exports.delete = async function (req, res, next) {
         console.log(result);
         
         if (result.deletedCount > 0) {
-            res.status(200)
+            res.status(200);
             res.json({
                 success: true,
                 message: "Project deleted successfully."
