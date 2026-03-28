@@ -1,122 +1,126 @@
 const Service = require('../models/services');
 
 // GET ALL services
-module.exports.getAll = async (req, res, next) => {
+module.exports.getAll = async function (req, res, next) {
     try {
-        const services = await Service.find();
-
-        // Map to replace _id with id
-        const data = services.map(service => ({
+        let services = await Service.find({});
+        
+        let data = services.map(service => ({
             title: service.title,
             description: service.description,
+            features: service.features,
+            image: service.image,
             id: service._id
         }));
-
+        
         res.json({
             success: true,
             message: "Services list retrieved successfully.",
             data: data
         });
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };
 
 // GET service by ID
-module.exports.getById = async (req, res, next) => {
+module.exports.getById = async function (req, res, next) {
     try {
-        const service = await Service.findById(req.params.id);
-
-        if (!service) {
-            return res.status(404).json({
-                success: false,
-                message: "Service not found."
-            });
-        }
-
+        let id = req.params.id;
+        let service = await Service.findOne({ _id: id });
+        
+        if (!service)
+            throw new Error('Service not found.');
+        
         res.json({
             success: true,
             message: "Service retrieved successfully.",
             data: {
                 title: service.title,
                 description: service.description,
+                features: service.features,
+                image: service.image,
                 id: service._id
             }
         });
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };
 
 // ADD new service
-module.exports.add = async (req, res, next) => {
+module.exports.add = async function (req, res, next) {
     try {
-        const service = new Service({
-            title: req.body.title,
-            description: req.body.description
-        });
-
-        const savedService = await service.save();
-
-        res.status(201).json({
+        let newService = new Service(req.body);
+        let result = await Service.create(newService);
+        console.log(result);
+        
+        res.status(200);
+        res.json({
             success: true,
             message: "Service added successfully.",
             data: {
-                title: savedService.title,
-                description: savedService.description,
-                id: savedService._id
+                title: result.title,
+                description: result.description,
+                features: result.features,
+                image: result.image,
+                id: result._id
             }
         });
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };
 
 // UPDATE service
-module.exports.update = async (req, res, next) => {
+module.exports.update = async function (req, res, next) {
     try {
-        const service = await Service.findByIdAndUpdate(
-            req.params.id,
-            {
-                title: req.body.title,
-                description: req.body.description
-            },
-            { new: true }
-        );
-
-        if (!service) {
-            return res.status(404).json({
-                success: false,
-                message: "Service not found."
+        let id = req.params.id;
+        
+        let updateData = { ...req.body };
+        delete updateData._id;
+        
+        let result = await Service.updateOne({ _id: id }, updateData);
+        console.log(result);
+        
+        if (result.modifiedCount > 0) {
+            res.status(200);
+            res.json({
+                success: true,
+                message: "Service updated successfully."
             });
         }
-
-        res.json({
-            success: true,
-            message: "Service updated successfully."
-        });
+        else {
+            throw new Error('Service not updated. It does not exist or there is nothing to change.')
+        }
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };
 
 // DELETE service
-module.exports.delete = async (req, res, next) => {
+module.exports.delete = async function (req, res, next) {
     try {
-        const service = await Service.findByIdAndDelete(req.params.id);
-
-        if (!service) {
-            return res.status(404).json({
-                success: false,
-                message: "Service not found."
+        let id = req.params.id;
+        let result = await Service.deleteOne({ _id: id });
+        console.log(result);
+        
+        if (result.deletedCount > 0) {
+            res.status(200);
+            res.json({
+                success: true,
+                message: "Service deleted successfully."
             });
         }
-
-        res.json({
-            success: true,
-            message: "Service deleted successfully."
-        });
+        else {
+            throw new Error('Service not deleted. Are you sure the id is correct?')
+        }
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };
