@@ -1,20 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const projectsController = require('../controllers/projects');
+const { requireAuth } = require('../middleware/auth'); 
 
 // get all projects
-router.get('/', projectsController.getAll);
+router.get('/',requireAuth,  projectsController.getAll);
 
 // get projects by id
-router.get('/:id', projectsController.getById);
+router.get('/:id', equireAuth,  projectsController.getById);
 
 // add new project
-router.post('/', projectsController.add);
+router.post('/', requireAuth, projectsController.add);
 
 // update project by id
-router.put('/:id', projectsController.update);
+router.put('/:id', requireAuth,  projectsController.update);
 
 // remove project by id
-router.delete('/:id', projectsController.delete);
+router.delete('/:id',requireAuth,  projectsController.delete);
 
 module.exports = router;

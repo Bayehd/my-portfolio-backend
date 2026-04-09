@@ -8,6 +8,7 @@ const app = express();
 // Importing all routers
 let indexRouter = require('../app/routes/index');
 let referencesRouter = require('../app/routes/references');
+let authRouter = require('../app/routes/auth'); 
 let projectsRouter = require('../app/routes/projects');
 let servicesRouter = require('../app/routes/services');
 let usersRouter = require('../app/routes/user');
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 // Registering routes
 app.use('/', indexRouter);
 app.use('/api/references', referencesRouter);
+app.use('/api/auth', authRouter);
 app.use('/api/projects', projectsRouter);
 app.use('/api/services', servicesRouter);
 app.use('/api/users', usersRouter);
