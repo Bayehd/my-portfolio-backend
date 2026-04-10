@@ -1,20 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const servicesController = require('../controllers/services');
+const { requireAuth } = require('../middleware/auth');
 
-// get all services
+// Public routes
 router.get('/', servicesController.getAll);
-
-// get service by ID
 router.get('/:id', servicesController.getById);
 
-// add new service
-router.post('/', servicesController.add);
-
-// update service by ID
-router.put('/:id', servicesController.update);
-
-// remove service by ID
-router.delete('/:id', servicesController.delete);
+// Protected routes
+router.post('/', requireAuth, servicesController.add);
+router.put('/:id', requireAuth, servicesController.update);
+router.delete('/:id', requireAuth, servicesController.delete);
 
 module.exports = router;

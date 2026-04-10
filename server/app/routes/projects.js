@@ -1,21 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const projectsController = require('../controllers/projects');
-const { requireAuth } = require('../middleware/auth'); 
+const { requireAuth } = require('../middleware/auth');
 
-// get all projects
-router.get('/',requireAuth,  projectsController.getAll);
+// Public routes (anyone can view)
+router.get('/', projectsController.getAll);
+router.get('/:id', projectsController.getById);
 
-// get projects by id
-router.get('/:id', equireAuth,  projectsController.getById);
-
-// add new project
+// Protected routes (require authentication)
 router.post('/', requireAuth, projectsController.add);
-
-// update project by id
-router.put('/:id', requireAuth,  projectsController.update);
-
-// remove project by id
-router.delete('/:id',requireAuth,  projectsController.delete);
+router.put('/:id', requireAuth, projectsController.update);
+router.delete('/:id', requireAuth, projectsController.delete);
 
 module.exports = router;

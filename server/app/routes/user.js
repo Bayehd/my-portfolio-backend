@@ -1,20 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const usersController = require('../controllers/user');
+const { requireAuth } = require('../middleware/auth');
 
-// get all users
+// Public routes
 router.get('/', usersController.getAll);
-
-// get user by ID
 router.get('/:id', usersController.getById);
+router.post('/', usersController.add);  // Signup doesn't need auth
 
-// add new user
-router.post('/', usersController.add);
-
-// update user by ID
-router.put('/:id', usersController.update);
-
-// remove user by ID
-router.delete('/:id', usersController.delete);
+// Protected routes (only update and delete need auth)
+router.put('/:id', requireAuth, usersController.update);
+router.delete('/:id', requireAuth, usersController.delete);
 
 module.exports = router;
