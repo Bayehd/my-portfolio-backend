@@ -75,12 +75,12 @@ module.exports.add = async function (req, res, next) {
                 title: result.title,
                 completion: result.completion,
                 description: result.description,
-                role: result.role,              // ← ADD
-                outcome: result.outcome,        // ← ADD
-                technologies: result.technologies, // ← ADD
-                image: result.image,            // ← ADD
-                liveUrl: result.liveUrl,        // ← ADD
-                githubUrl: result.githubUrl,    // ← ADD
+                role: result.role,              
+                outcome: result.outcome,        
+                technologies: result.technologies, 
+                image: result.image,           
+                liveUrl: result.liveUrl,       
+                githubUrl: result.githubUrl,    
                 id: result._id
             }
         });
